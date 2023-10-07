@@ -38,7 +38,7 @@ jobs:
       - name: Migrate
         working-directory: ./back
         run: |
-              npm run migrate
+              npm run migrate:test
       - name: Lint
         working-directory: ./back
         run: |
