@@ -27,4 +27,16 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
+      - name: Install Node.js, NPM and Yarn
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16
+      - name: Install Dependencies
+        working-directory: ./back
+        run: |
+              npm ci
+      - name: Install Dependencies
+        working-directory: ./back
+        run: |
+              npm run migrate
       
