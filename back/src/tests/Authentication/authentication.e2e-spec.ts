@@ -18,7 +18,7 @@ describe('AuthenticationController (e2e)', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
-    repository = moduleFixture.get<Repository<User>>(getRepositoryToken(User));
+    repository = moduleFixture.get(getRepositoryToken(User));
     await app.init();
   });
 
@@ -35,18 +35,20 @@ describe('AuthenticationController (e2e)', () => {
   });
 
   it('return an authorization token for valid credentials', async () => {
-    const user: Partial<User> = {
+    repository.insert({
       email: 'test@tes.example.com',
-      password: 'test',
-    };
-    repository.insert(user);
+      password: '$2b$10$U/W1MCv3mzcv2Z9xKeMxn.j16rXcgrLfwJyP5.P0sKClQKtztXt0y',
+    });
 
     const response = await request(app.getHttpServer())
       .post('/auth/login')
-      .send(user);
-    console.log(response);
-    expect(response.status).toBe(HttpStatus.OK);
+      .send({
+        email: 'test@tes.example.com',
+        password: 'test',
+      });
+    expect(response.status).toBe(HttpStatus.CREATED);
     authToken = response.body.token;
+    expect(authToken).not.toBeNull();
   });
 
   afterEach(async () => {

@@ -1,6 +1,5 @@
 import { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
-import { UserModule } from 'src/User/user.module';
 import { EntityManager } from 'typeorm';
 
 export const clearDatabase = async (app: INestApplication): Promise<void> => {
