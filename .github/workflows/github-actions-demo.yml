@@ -48,44 +48,43 @@ jobs:
           restore-keys: |
             ${{ runner.OS }}-npm-cache-
   lint:
-    build:
-      name: build
-      runs-on: ubuntu-latest
-      # Docker Hub image that `container-job` executes in
-      container: node:18
-  
-      # Service containers to run with `container-job`
-      services:
-        # Label used to access the service container
-        postgres:
-          # Docker Hub image
-          image: postgres
-          # Provide the password for postgres
-          env:
-            POSTGRES_PASSWORD: dev
-            POSTGRES_USER: dev
-            POSTGRES_DB: test
-          # Set health checks to wait until postgres has started
-          options: >-
-            --health-cmd pg_isready
-            --health-interval 10s
-            --health-timeout 5s
-            --health-retries 5
-      steps:
-        - uses: actions/cache@v3
-          with:
-            path: ./back
-            key: ${{ runner.OS }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
-        - name: Lint
-          working-directory: ./back
-          run: |
-                npm run lint
-        - name: Test
-          working-directory: ./back
-          run: |
-                npm run test
-        - name: Test e2e
-          working-directory: ./back
-          run: |
-                npm run test:e2e
-        
+    name: lint
+    runs-on: ubuntu-latest
+    # Docker Hub image that `container-job` executes in
+    container: node:18
+
+    # Service containers to run with `container-job`
+    services:
+      # Label used to access the service container
+      postgres:
+        # Docker Hub image
+        image: postgres
+        # Provide the password for postgres
+        env:
+          POSTGRES_PASSWORD: dev
+          POSTGRES_USER: dev
+          POSTGRES_DB: test
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/cache@v3
+        with:
+          path: ./back
+          key: ${{ runner.OS }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
+      - name: Lint
+        working-directory: ./back
+        run: |
+              npm run lint
+      - name: Test
+        working-directory: ./back
+        run: |
+              npm run test
+      - name: Test e2e
+        working-directory: ./back
+        run: |
+              npm run test:e2e
+      
