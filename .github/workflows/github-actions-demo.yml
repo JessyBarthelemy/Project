@@ -1,5 +1,5 @@
-name: GitHub Actions Demo
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+name: Build app
+run-name: Build app
 on: [push]
 jobs:
   build:
@@ -36,10 +36,6 @@ jobs:
         working-directory: ./back
         run: |
               npm ci
-      - name: Migrate
-        working-directory: ./back
-        run: |
-              npm run migrate:test
       - name: Cache NPM dependencies
         uses: actions/cache@v3
         with:
@@ -49,6 +45,21 @@ jobs:
             ${{ runner.OS }}-npm-cache-
   lint:
     name: lint
+    needs: build
+    runs-on: ubuntu-latest
+    # Docker Hub image that `container-job` executes in
+    container: node:18
+    steps:
+      - uses: actions/cache@v3
+        with:
+          path: ./back
+          key: ${{ runner.OS }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
+      - name: Lint
+        working-directory: ./back
+        run: |
+              npm run lint
+  test:
+    name: test
     needs: build
     runs-on: ubuntu-latest
     # Docker Hub image that `container-job` executes in
@@ -76,10 +87,10 @@ jobs:
         with:
           path: ./back
           key: ${{ runner.OS }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
-      - name: Lint
+      - name: Migrate
         working-directory: ./back
         run: |
-              npm run lint
+              npm run migrate:test
       - name: Test
         working-directory: ./back
         run: |
@@ -88,4 +99,42 @@ jobs:
         working-directory: ./back
         run: |
               npm run test:e2e
+  test_e2e:
+    name: test_e2e
+    needs: build
+    runs-on: ubuntu-latest
+    # Docker Hub image that `container-job` executes in
+    container: node:18
+
+    # Service containers to run with `container-job`
+    services:
+      # Label used to access the service container
+      postgres:
+        # Docker Hub image
+        image: postgres
+        # Provide the password for postgres
+        env:
+          POSTGRES_PASSWORD: dev
+          POSTGRES_USER: dev
+          POSTGRES_DB: test
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/cache@v3
+        with:
+          path: ./back
+          key: ${{ runner.OS }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
+      - name: Migrate
+        working-directory: ./back
+        run: |
+              npm run migrate:test
+      - name: Test e2e
+        working-directory: ./back
+        run: |
+              npm run test:e2e
+      
       
