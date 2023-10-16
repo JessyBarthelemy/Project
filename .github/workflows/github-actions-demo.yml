@@ -49,6 +49,7 @@ jobs:
             ${{ runner.OS }}-npm-cache-
   lint:
     name: lint
+    needs: build
     runs-on: ubuntu-latest
     # Docker Hub image that `container-job` executes in
     container: node:18
