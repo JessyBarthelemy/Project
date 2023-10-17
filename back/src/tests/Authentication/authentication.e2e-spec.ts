@@ -46,7 +46,7 @@ describe('AuthenticationController (e2e)', () => {
         email: 'test@tes.example.com',
         password: 'test',
       });
-    expect(response.status).toBe(1);
+    expect(response.status).toBe(HttpStatus.CREATED);
     authToken = response.body.token;
     expect(authToken).not.toBeNull();
   });
