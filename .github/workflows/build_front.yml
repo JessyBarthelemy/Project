@@ -19,7 +19,7 @@ jobs:
       - name: Install Dependencies
         working-directory: ./front
         run: |
-              npm ci --dev 
+              npm ci
       - name: Cache NPM dependencies
         uses: actions/cache@v3
         with:
@@ -53,7 +53,7 @@ jobs:
         uses: actions/checkout@v4
       - uses: actions/cache@v3
         with:
-          path: ./back/node_modules
+          path: ./front/node_modules
           key: ${{ runner.OS }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
       - name: Test
         working-directory: ./front
