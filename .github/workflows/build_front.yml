@@ -1,0 +1,64 @@
+name: Build front
+run-name: Build front
+on: 
+  pull_request:
+    paths:
+      - 'front/**'
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    # Docker Hub image that `container-job` executes in
+    container: node:18
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Install Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16
+      - name: Install Dependencies
+        working-directory: ./front
+        run: |
+              npm ci
+      - name: Cache NPM dependencies
+        uses: actions/cache@v3
+        with:
+          path: ./front/node_modules
+          key: ${{ runner.OS }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-npm-cache-
+  lint:
+    name: lint
+    needs: build
+    runs-on: ubuntu-latest
+    # Docker Hub image that `container-job` executes in
+    container: node:18
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - uses: actions/cache@v3
+        with:
+          path: ./front/node_modules
+          key: ${{ runner.OS }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
+      - name: Lint
+        working-directory: ./front
+        run: |
+              npm run lint
+  test:
+    name: test
+    needs: build
+    runs-on: ubuntu-latest
+    container: node:18
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - uses: actions/cache@v3
+        with:
+          path: ./back/node_modules
+          key: ${{ runner.OS }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
+      - name: Test
+        working-directory: ./front
+        run: |
+              npm run test
+      
