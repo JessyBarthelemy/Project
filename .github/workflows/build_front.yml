@@ -8,7 +8,6 @@ jobs:
   build:
     name: build
     runs-on: ubuntu-latest
-    # Docker Hub image that `container-job` executes in
     container: node:18
     steps:
       - name: Check out repository code
@@ -20,7 +19,7 @@ jobs:
       - name: Install Dependencies
         working-directory: ./front
         run: |
-              npm ci
+              npm ci --dev 
       - name: Cache NPM dependencies
         uses: actions/cache@v3
         with:
@@ -32,7 +31,6 @@ jobs:
     name: lint
     needs: build
     runs-on: ubuntu-latest
-    # Docker Hub image that `container-job` executes in
     container: node:18
     steps:
       - name: Check out repository code
