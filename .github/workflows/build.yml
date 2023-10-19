@@ -99,10 +99,6 @@ jobs:
         working-directory: ./back
         run: |
               npm run test
-      - name: Test e2e
-        working-directory: ./back
-        run: |
-              npm run test:e2e
   test_e2e:
     name: test_e2e
     needs: build
