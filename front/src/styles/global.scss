@@ -1,0 +1,18 @@
+
+body {
+    background-color: rgb(var(--v-theme-primary));
+}
+
+.v-btn {
+    min-width: 0;
+}
+
+a {
+    font-family: 'Roboto';
+    text-decoration: none;
+    color: #0066CC;
+ 
+    &:active {
+        color: #0066CC;
+    }
+}

@@ -1,0 +1,40 @@
+{
+    
+    "env": {
+        "browser": true,
+        "es6": true,
+        "node": true
+    },
+    "parserOptions": {
+         "parser": "@babel/eslint-parser",
+         "requireConfigFile": false
+     },
+    "extends": [
+        "airbnb-base",
+        "plugin:vue/recommended"
+    ],
+    "rules": {
+        "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
+        "import/prefer-default-export": "off",
+        "import/extensions": "off",
+        "max-len": "off",
+        "no-param-reassign": [
+            "error",
+            {
+              "props": true,
+              "ignorePropertyModificationsFor": [
+                "state"
+              ]
+            }
+        ]
+    },
+    "settings": {
+        "import/resolver": {
+          "typescript": {} // this loads <rootdir>/tsconfig.json to eslint
+        }
+    },
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+        "@typescript-eslint"
+    ]
+}

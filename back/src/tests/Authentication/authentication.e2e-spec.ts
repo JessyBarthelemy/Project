@@ -2,9 +2,9 @@ import { HttpStatus, INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import * as request from 'supertest';
 import { Repository } from 'typeorm';
-import { User } from 'src/User/user.entity';
+import { User } from 'src/user/user.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { AppModule } from 'src/App/app.module';
+import { AppModule } from 'src/app/app.module';
 import { clearDatabase } from '../SetupTest';
 
 describe('AuthenticationController (e2e)', () => {
