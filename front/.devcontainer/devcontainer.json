@@ -4,7 +4,11 @@
     "service": "app",
     "customizations": {
       "vscode": {
-        "extensions": ["dbaeumer.vscode-eslint", "Vue.volar"]
+        "extensions": [
+			"dbaeumer.vscode-eslint",
+			"Vue.vscode-typescript-vue-plugin",
+			"Vue.volar"
+		]
       }
     },
     "forwardPorts": [3000]

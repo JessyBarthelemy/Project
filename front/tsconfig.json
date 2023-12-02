@@ -1,5 +1,28 @@
 {
   "files": [],
+  "compilerOptions": {
+    "types": ["node"],
+    "target": "es5",
+    "module": "esnext",
+    "strict": true,
+    "noImplicitAny": false,
+    "allowJs": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    "importHelpers": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+  },
+
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.vue",
+    "tests/**/*.ts",
+  ],
+  "exclude": [
+    "node_modules"
+  ],
+
   "references": [
     {
       "path": "./tsconfig.node.json"
