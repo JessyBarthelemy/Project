@@ -53,11 +53,10 @@ export class UserService {
     await this.userRepository.update(user.id, user);
 
     urlParam.append('token', user.resetPasswordToken);
-    urlParam.append('user_id', user.id.toString());
 
     this.mailService.sendUserConfirmation(
       email,
-      `${process.env.APP_FRONT_URL}/user/password/reset?${urlParam.toString()}`,
+      `${process.env.APP_FRONT_URL}/user/${ user.id }/password/reset?${urlParam.toString()}`,
     );
   }
 
