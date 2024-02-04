@@ -45,9 +45,9 @@ import { loginService } from '../../../services/LoginService';
 import {User} from '../../../types/user/User';
 import './Login.css';
 import { ValidationError } from '../../../exceptions/ValidationError';
-import Message from '../../Common/Message.vue';
+import Message from '../../../components/common/Message.vue';
 import { useMessage } from '../../../hooks/useMessage';
-import MiddleForm from '../../Common/MiddleForm.vue';
+import MiddleForm from '../../../components/common/MiddleForm.vue';
 import router from '../../../router';
 
 export default defineComponent({

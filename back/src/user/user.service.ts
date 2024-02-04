@@ -2,20 +2,23 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
-import { UserDto } from './Dto/UserDto';
 import * as bcrypt from 'bcrypt';
 import { UserError } from './user.error';
 import { v4 as uuid } from 'uuid';
 import { MailService } from 'src/mail/mail.service';
 import { addDays } from 'date-fns';
+import { BaseService } from 'src/base/BaseService';
+import { UserDto } from './Dto/user.dto';
 
 @Injectable()
-export class UserService {
+export class UserService extends BaseService<User> {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
     private mailService: MailService,
-  ) {}
+  ) {
+    super(userRepository);
+  }
 
   async findOne(email: string): Promise<User | undefined> {
     return this.userRepository.findOneBy({
@@ -23,7 +26,7 @@ export class UserService {
     });
   }
 
-  async create(user: UserDto): Promise<User> {
+  async create(user: UserDto): Promise<User | undefined> {
     const existingUser = await this.userRepository.findOneBy({
       email: user.email,
     });
@@ -56,7 +59,9 @@ export class UserService {
 
     this.mailService.sendUserConfirmation(
       email,
-      `${process.env.APP_FRONT_URL}/user/${ user.id }/password/reset?${urlParam.toString()}`,
+      `${process.env.APP_FRONT_URL}/user/${
+        user.id
+      }/password/reset?${urlParam.toString()}`,
     );
   }
 

@@ -21,7 +21,7 @@
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
-import Message from '../../components/Common/Message.vue';
+import Message from '../../components/common/Message.vue';
 import {Message as MessageType} from '../../types/Message';
 import { PropType } from 'vue';
 

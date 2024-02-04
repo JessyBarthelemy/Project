@@ -1,9 +1,10 @@
 import { Exclude } from 'class-transformer';
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Restaurant } from '../restaurant/entity/restaurant.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 export const PASSWORD_MIN_LENGTH = 6;
 
-@Entity({ name: 'users' })
+@Entity()
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
@@ -22,4 +23,7 @@ export class User {
   @Exclude({ toPlainOnly: true })
   @Column({ type: 'timestamptz', nullable: true })
   resetPasswordExpiration: Date;
+
+  @OneToMany(() => Restaurant, (restaurant: Restaurant) => restaurant.user)
+  restaurants: Restaurant[];
 }

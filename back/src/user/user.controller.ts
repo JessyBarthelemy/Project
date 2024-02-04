@@ -1,9 +1,9 @@
 import { Body, Controller, Param, Post } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from './user.entity';
-import { UserDto } from './Dto/UserDto';
-import { EmailDto } from './Dto/EmailDto';
-import { ResetPasswordDto } from './Dto/ResetPasswordDto';
+import { UserDto } from './Dto/user.dto';
+import { EmailDto } from './Dto/email.dto';
+import { ResetPasswordDto } from './Dto/resetPassword.dto';
 
 @Controller('user')
 export class UserController {
