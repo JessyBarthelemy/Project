@@ -1,17 +1,18 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomeView from '../views/HomeView.vue';
 import LoginView from '../views/user/login/LoginView.vue';
 import ResetPassword from '../views/user/ResetPassword.vue';
 import RestaurantsListView from '../views/restaurant/RestaurantsListView.vue';
 import store from '../store/store';
+import SignUp from '@/views/user/login/SignUp.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: HomeView,
+      redirect: () => {
+        return store.state.token ? '/restaurants' : '/login';
+      },
     },
     {
       path: '/login',
@@ -19,9 +20,9 @@ const router = createRouter({
       component: LoginView,
     },
     {
-      path: '/register',
-      name: 'register',
-      component: HomeView,
+      path: '/signup',
+      name: 'signup',
+      component: SignUp,
     },
     {
       path: '/user/:id/password/reset',
@@ -40,7 +41,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from) => {
-  console.log('bedore each', store.state.token); 
+  console.log('bedore each', store.state.token);
   if (to.meta.requiresAuth && store.state.token === null) {
     return {
       path: '/login',

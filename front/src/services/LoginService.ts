@@ -8,13 +8,13 @@ import type { ResetPassword } from '@/types/user/ResetPassword';
 const PASSWORD_MIN_LENGTH = 6;
 
 class LoginService extends BaseService {
-  private checkEmail(email: string|null) {
+  private checkEmail(email: string | null) {
     if (!email) {
       throw new ValidationError(USER_ERROR.emailRequired.code, USER_ERROR.emailRequired.message);
     }
   }
 
-  private checkPassword(password: string|null) {
+  private checkPassword(password: string | null) {
     if (!password) {
       throw new ValidationError(USER_ERROR.passwordRequired.code, USER_ERROR.passwordRequired.message);
     }
@@ -25,7 +25,7 @@ class LoginService extends BaseService {
   }
 
   // #region api call
-  async login(user: User) : Promise<AxiosResponse> {
+  async login(user: User): Promise<AxiosResponse> {
     const { email, password } = user;
     this.checkEmail(email);
     this.checkPassword(password);
@@ -33,12 +33,20 @@ class LoginService extends BaseService {
     return this.axiosInstance.post('/auth/login', { email, password });
   }
 
-  async requestResetPassword(email: string|null) : Promise<AxiosResponse> {
+  async signUp(user: User): Promise<AxiosResponse> {
+    const { email, password } = user;
+    this.checkEmail(email);
+    this.checkPassword(password);
+
+    return this.axiosInstance.post('/user', { email, password });
+  }
+
+  async requestResetPassword(email: string | null): Promise<AxiosResponse> {
     this.checkEmail(email);
     return this.axiosInstance.post('/user/password/request', { email });
   }
 
-  async resetPassword({ password, confirmPassword } : ResetPassword) : Promise<AxiosResponse> {
+  async resetPassword({ password, confirmPassword }: ResetPassword): Promise<AxiosResponse> {
     this.checkPassword(password);
     if (password !== confirmPassword) {
       throw new ValidationError(USER_ERROR.passwordConfirm.code, USER_ERROR.passwordConfirm.message);

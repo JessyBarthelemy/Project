@@ -1,12 +1,4 @@
 <template>
-  <header>
-    <nav>
-      <router-link to="/">Home</router-link>
-      <router-link to="/login">Connexion</router-link>
-      <router-link v-if="isLoggedIn" to="/restaurants">Restaurants</router-link>
-    </nav>
-  </header>
-
   <RouterView />
 </template>
 

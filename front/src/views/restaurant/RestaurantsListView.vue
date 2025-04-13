@@ -1,7 +1,7 @@
 <template>
   <main>
     <v-container>
-      <h1>Restaurants</h1>
+      <h1>Cartes</h1>
       <v-row>
         <v-col cols="2">
           <RestaurantCard title="ok" address="adresse du restaurant 51100"/>

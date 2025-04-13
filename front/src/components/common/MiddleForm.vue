@@ -1,40 +1,40 @@
 <template>
-    <v-form @submit.prevent="">
-        <v-container color="primary">
-        <v-row justify="center">
-            <v-col cols="4">
-                <v-card class="mx-auto px-10 py-8" elevation="16">
-                <v-card-title class="text-center text-primary">
-                    {{title}}
-                </v-card-title>
+  <v-form @submit.prevent="" :class="['d-flex align-center justify-center full-height', { ['with-background']: withBackground }]">
+    <v-container color="primary">
+      <v-row justify="center">
+        <v-col cols="4">
+          <v-card class="mx-auto px-10 py-8" elevation="16">
+            <v-card-title class="text-center text-primary">
+              {{ title }}
+            </v-card-title>
 
-                <Message :type="message?.type" :text="message?.text" />
+            <Message :type="message?.type" :text="message?.text" />
 
-                <slot />
+            <slot />
 
-                </v-card>
-            </v-col>
-        </v-row>
-        </v-container>
-    </v-form>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-form>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
 import Message from '../../components/common/Message.vue';
-import {Message as MessageType} from '../../types/Message';
+import { Message as MessageType } from '../../types/Message';
 import { PropType } from 'vue';
 
 export default defineComponent({
   name: 'MiddleForm',
-  components: {Message}, 
+  components: { Message },
   props: {
     message: Object as PropType<MessageType>,
     title: String,
+    withBackground: Boolean,
   },
-
   setup(props) {
-    return {};
+    return {withBackground: props.withBackground};
   }
 })
 </script>

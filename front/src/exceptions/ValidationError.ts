@@ -1,5 +1,5 @@
 export class ValidationError extends Error {
-  code :string;
+  code: string;
 
   constructor(code: string, message: string) {
     super(message);

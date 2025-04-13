@@ -1,6 +1,15 @@
+html {
+    overflow: auto;
+}
 
 body {
     background-color: rgb(var(--v-theme-background));
+}
+
+.with-background {
+    background-image: url(../../public/background.png);
+    background-position: center;
+    background-size: cover;
 }
 
 .v-btn {
@@ -11,8 +20,17 @@ a {
     font-family: 'Roboto';
     text-decoration: none;
     color: #0066CC;
- 
+
     &:active {
         color: #0066CC;
     }
+}
+
+.login-extra-links {
+    display: flex;
+    justify-content: space-between;
+}
+
+.full-height {
+    height: 100vh;
 }

@@ -1,7 +1,8 @@
 <template>
     <main>
         <v-card class="mx-auto">
-            <v-img
+            
+          <v-img
                 class="align-end text-white"
                 height="200"
                 src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
@@ -9,9 +10,10 @@
             >
                 <v-card-title>{{title}}</v-card-title>
             </v-img>
-
+            
             <v-card-text>
                 <div>{{address}}</div>
+                <div>51100 REIMS</div>
             </v-card-text>
         </v-card>
     </main>
