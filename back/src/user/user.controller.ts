@@ -4,14 +4,15 @@ import { User } from './user.entity';
 import { UserDto } from './Dto/user.dto';
 import { EmailDto } from './Dto/email.dto';
 import { ResetPasswordDto } from './Dto/resetPassword.dto';
+import { UserProvider } from './Enum/UserProvider';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
 
   @Post()
   async createUser(@Body() user: UserDto): Promise<User> {
-    return await this.userService.create(user);
+    return await this.userService.create(user, UserProvider.LOCAL);
   }
 
   @Post('password/request')

@@ -10,6 +10,7 @@ import * as directives from 'vuetify/directives';
 import router from './router';
 import App from './App.vue';
 import store from './store/store';
+import GoogleLogin from 'vue3-google-login';
 
 const vuetify = createVuetify({
   components,
@@ -20,15 +21,6 @@ const vuetify = createVuetify({
         primary: '#6200EE',
         colors: {
           background: '#EAEAEA',
-          // surface: '#FFFFFF',
-          // primary: '#6200EE',
-          // 'primary-darken-1': '#3700B3',
-          // secondary: '#03DAC6',
-          // 'secondary-darken-1': '#018786',
-          // error: '#B00020',
-          // info: '#2196F3',
-          // success: '#4CAF50',
-          // warning: '#FB8C00',
         },
       },
     },
@@ -40,6 +32,7 @@ const app = createApp(App);
 app.use(router);
 app.use(vuetify);
 
+app.use(GoogleLogin, { clientId: import.meta.env.VITE_GOOGLE_CLIENT_ID, });
 
 app.use(store);
 app.mount('#app');

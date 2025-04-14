@@ -9,6 +9,7 @@ import { MailService } from 'src/mail/mail.service';
 import { addDays } from 'date-fns';
 import { BaseService } from 'src/base/BaseService';
 import { UserDto } from './Dto/user.dto';
+import { UserProvider } from './Enum/UserProvider';
 
 @Injectable()
 export class UserService extends BaseService<User> {
@@ -26,7 +27,7 @@ export class UserService extends BaseService<User> {
     });
   }
 
-  async create(user: UserDto): Promise<User | undefined> {
+  async create(user: UserDto, provider: UserProvider): Promise<User | undefined> {
     const existingUser = await this.userRepository.findOneBy({
       email: user.email,
     });
@@ -35,12 +36,24 @@ export class UserService extends BaseService<User> {
       throw new BadRequestException(UserError.DUPLICATE_USER);
     }
 
-    const newUser = this.userRepository.create({
-      ...user,
-      password: await bcrypt.hash(user.password, 10),
-    });
+    const userToCreate: Partial<User> = { ...user };
 
+    if (provider === UserProvider.LOCAL) {
+      userToCreate.password = await bcrypt.hash(user.password, 10);
+      userToCreate.provider = UserProvider.LOCAL;
+    } else {
+      userToCreate.password = null;
+      userToCreate.provider = UserProvider.GOOGLE;
+    }
+
+    const newUser = this.userRepository.create(userToCreate);
     return await this.userRepository.save(newUser);
+  }
+
+  checkProvider(user: User, providerToCheck: UserProvider) {
+    if (user.provider !== providerToCheck) {
+      throw new BadRequestException(UserError.PROVIDER_ACTION_FORBIDDEN);
+    }
   }
 
   async requestPasswordChange(email: string) {
@@ -51,6 +64,7 @@ export class UserService extends BaseService<User> {
       return;
     }
 
+    this.checkProvider(user, UserProvider.LOCAL);
     user.resetPasswordToken = uuid();
     user.resetPasswordExpiration = addDays(new Date(), 1);
     await this.userRepository.update(user.id, user);
@@ -59,8 +73,7 @@ export class UserService extends BaseService<User> {
 
     this.mailService.sendUserConfirmation(
       email,
-      `${process.env.APP_FRONT_URL}/user/${
-        user.id
+      `${process.env.APP_FRONT_URL}/user/${user.id
       }/password/reset?${urlParam.toString()}`,
     );
   }
@@ -78,6 +91,8 @@ export class UserService extends BaseService<User> {
     if (!user) {
       throw new BadRequestException(UserError.PASSWORD_CHANGE);
     }
+
+    this.checkProvider(user, UserProvider.LOCAL);
 
     if (user.resetPasswordExpiration < new Date()) {
       throw new BadRequestException(UserError.PASSWORD_TOKEN_EXPIRED);

@@ -13,8 +13,12 @@ export class User {
   email: string;
 
   @Exclude()
-  @Column({ type: 'varchar', length: 300 })
+  @Column({ type: 'varchar', length: 300, nullable: true })
   password: string;
+
+  @Exclude()
+  @Column({ type: 'varchar', length: 20, })
+  provider: string;
 
   @Exclude({ toPlainOnly: true })
   @Column({ type: 'varchar', length: 300, nullable: true })

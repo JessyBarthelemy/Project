@@ -23,7 +23,7 @@ export class Users1696277257319 implements MigrationInterface {
             name: 'password',
             type: 'varchar',
             length: '200',
-            isNullable: false,
+            isNullable: true,
           },
           {
             name: 'resetPasswordToken',
@@ -35,6 +35,12 @@ export class Users1696277257319 implements MigrationInterface {
             name: 'resetPasswordExpiration',
             type: 'timestamptz',
             isNullable: true,
+          },
+          {
+            name: 'provider',
+            type: 'varchar',
+            length: '20',
+            isNullable: false,
           },
         ],
       }),

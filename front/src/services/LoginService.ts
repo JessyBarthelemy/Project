@@ -33,6 +33,10 @@ class LoginService extends BaseService {
     return this.axiosInstance.post('/auth/login', { email, password });
   }
 
+  async loginWithGoogle(token: string): Promise<AxiosResponse> {
+    return this.axiosInstance.post('/auth/login/google', { token });
+  }
+
   async signUp(user: User): Promise<AxiosResponse> {
     const { email, password } = user;
     this.checkEmail(email);

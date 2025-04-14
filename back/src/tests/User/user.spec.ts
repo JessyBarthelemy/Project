@@ -3,7 +3,7 @@ import { DatabaseModule } from 'src/database/database.module';
 import { UserModule } from 'src/user/user.module';
 import { clearDatabase } from '../SetupTest';
 import { UserController } from 'src/user/user.controller';
-import { UserDto } from 'src/user/Dto/UserDto';
+import { UserDto } from 'src/user/Dto/user.dto';
 import { pick } from 'lodash';
 import { UserService } from 'src/user/user.service';
 import { BadRequestException } from '@nestjs/common';
@@ -11,9 +11,10 @@ import { UserError } from 'src/user/user.error';
 import { User } from 'src/user/user.entity';
 import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { ResetPasswordDto } from 'src/user/Dto/ResetPasswordDto';
+import { ResetPasswordDto } from 'src/user/Dto/resetPassword.dto';
 import { mock } from 'node:test';
 import { addDays, subDays } from 'date-fns';
+import { UserProvider } from 'src/user/Enum/UserProvider';
 
 jest.mock('../../mail/mail.service');
 
@@ -54,6 +55,7 @@ describe('UserService', () => {
       mockUser.id = 1;
       mockUser.email = 'test@example.com';
       mockUser.password = 'test';
+      mockUser.provider = UserProvider.LOCAL;
       await userRepository.save(mockUser);
 
       const userController = appModule.get(UserController);
@@ -71,6 +73,7 @@ describe('UserService', () => {
       mockUser.password = '';
       mockUser.resetPasswordToken = '123456';
       mockUser.resetPasswordExpiration = addDays(new Date(), 1);
+      mockUser.provider = UserProvider.LOCAL;
       await userRepository.save(mockUser);
 
       const userController = appModule.get(UserController);
@@ -93,6 +96,7 @@ describe('UserService', () => {
       mockUser.password = '';
       mockUser.resetPasswordToken = '123456';
       mockUser.resetPasswordExpiration = subDays(new Date(), 1);
+      mockUser.provider = UserProvider.LOCAL;
       await userRepository.save(mockUser);
 
       const userController = appModule.get(UserController);

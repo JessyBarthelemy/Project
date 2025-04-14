@@ -11,4 +11,8 @@ export const UserError = {
     code: 'password_token_expired',
     message: 'Le lien est expiré.',
   },
+  PROVIDER_ACTION_FORBIDDEN: {
+    code: 'provider_action_forbidden',
+    message: 'Cette action n\'est pas disponible pour votre compte.',
+  },
 } as const;
