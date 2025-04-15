@@ -27,7 +27,10 @@ export class UserService extends BaseService<User> {
     });
   }
 
-  async create(user: UserDto, provider: UserProvider): Promise<User | undefined> {
+  async create(
+    user: UserDto,
+    provider: UserProvider,
+  ): Promise<User | undefined> {
     const existingUser = await this.userRepository.findOneBy({
       email: user.email,
     });
@@ -73,7 +76,8 @@ export class UserService extends BaseService<User> {
 
     this.mailService.sendUserConfirmation(
       email,
-      `${process.env.APP_FRONT_URL}/user/${user.id
+      `${process.env.APP_FRONT_URL}/user/${
+        user.id
       }/password/reset?${urlParam.toString()}`,
     );
   }

@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import LoginView from '../views/user/login/LoginView.vue';
 import ResetPassword from '../views/user/ResetPassword.vue';
 import RestaurantsListView from '../views/restaurant/RestaurantsListView.vue';
-import store from '../store/store';
+import { useStore } from '../store/store';
 import SignUp from '@/views/user/login/SignUp.vue';
 
 const router = createRouter({
@@ -11,7 +11,8 @@ const router = createRouter({
     {
       path: '/',
       redirect: () => {
-        return store.state.token ? '/restaurants' : '/login';
+        const store = useStore();
+        return store.token ? '/restaurants' : '/login';
       },
     },
     {
@@ -40,9 +41,9 @@ const router = createRouter({
   ],
 });
 
-router.beforeEach((to, from) => {
-  console.log('bedore each', store.state.token);
-  if (to.meta.requiresAuth && store.state.token === null) {
+router.beforeEach((to) => {
+  const store = useStore();
+  if (to.meta.requiresAuth && store.token === null) {
     return {
       path: '/login',
       query: { redirect: to.fullPath },

@@ -24,10 +24,10 @@
       />
 
       <v-btn
-        v-on:click="handleReset"
         block
         color="primary"
         class="shrink mx-auto"
+        v-on:click="handleReset"
       >
         Valider
       </v-btn>

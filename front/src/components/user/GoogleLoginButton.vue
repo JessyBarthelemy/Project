@@ -9,8 +9,8 @@
 import { defineComponent } from 'vue';
 import { GoogleLogin } from 'vue3-google-login';
 import { loginService } from '../../services/LoginService';
-import { useStore } from 'vuex';
 import router from '../../router';
+import { useStore } from '../../store/store';
 
 
 export default defineComponent({
@@ -21,7 +21,7 @@ export default defineComponent({
       const { data: { accessToken } } = await loginService.loginWithGoogle(credential);
 
       if (accessToken) {
-        store.commit('setToken', { token: accessToken });
+        store.setToken(accessToken);
         router.replace({ path: '/' })
       }
     };

@@ -9,7 +9,7 @@ export class AuthenticationService {
   constructor(
     private readonly usersService: UserService,
     private jwtService: JwtService,
-  ) { }
+  ) {}
 
   async validateUser(email: string, password: string): Promise<any> {
     const user = await this.usersService.findOne(email);
@@ -17,7 +17,9 @@ export class AuthenticationService {
       return null;
     }
 
-    const passwordValid = user.provider === UserProvider.LOCAL && await bcrypt.compare(password, user.password);
+    const passwordValid =
+      user.provider === UserProvider.LOCAL &&
+      (await bcrypt.compare(password, user.password));
     if (!user) {
       throw new NotAcceptableException('Connexion échouée');
     }
@@ -39,10 +41,13 @@ export class AuthenticationService {
   async loginGoogle(user: any) {
     let payload = await this.usersService.findOne(user.email);
     if (!payload) {
-      payload = await this.usersService.create({
-        email: user.email,
-        password: null
-      }, UserProvider.GOOGLE);
+      payload = await this.usersService.create(
+        {
+          email: user.email,
+          password: null,
+        },
+        UserProvider.GOOGLE,
+      );
     }
     return this.login(payload);
   }

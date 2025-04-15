@@ -22,16 +22,14 @@
   
   <script lang="ts">
   import { defineComponent } from 'vue';
-  import { Card } from '../../types/card/card';
   
   export default defineComponent({
+    name: 'RestaurantCard',
     props: {
         title: String,
         address: String,
     },
-    name: 'RestaurantCard',
-    setup(props) {
-      console.log('props', props?.title);
+    setup() {
     },
   })
   </script>

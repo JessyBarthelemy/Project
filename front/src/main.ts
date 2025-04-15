@@ -9,8 +9,9 @@ import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 import router from './router';
 import App from './App.vue';
-import store from './store/store';
 import GoogleLogin from 'vue3-google-login';
+import { createPinia } from 'pinia';
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 
 const vuetify = createVuetify({
   components,
@@ -32,7 +33,9 @@ const app = createApp(App);
 app.use(router);
 app.use(vuetify);
 
-app.use(GoogleLogin, { clientId: import.meta.env.VITE_GOOGLE_CLIENT_ID, });
+const pinia = createPinia();
+pinia.use(piniaPluginPersistedstate);
+app.use(pinia);
 
-app.use(store);
+app.use(GoogleLogin, { clientId: import.meta.env.VITE_GOOGLE_CLIENT_ID, });
 app.mount('#app');

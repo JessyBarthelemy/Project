@@ -17,7 +17,7 @@ export class User {
   password: string;
 
   @Exclude()
-  @Column({ type: 'varchar', length: 20, })
+  @Column({ type: 'varchar', length: 20 })
   provider: string;
 
   @Exclude({ toPlainOnly: true })

@@ -13,6 +13,6 @@ export const UserError = {
   },
   PROVIDER_ACTION_FORBIDDEN: {
     code: 'provider_action_forbidden',
-    message: 'Cette action n\'est pas disponible pour votre compte.',
+    message: "Cette action n'est pas disponible pour votre compte.",
   },
 } as const;

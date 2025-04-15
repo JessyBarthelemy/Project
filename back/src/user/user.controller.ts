@@ -8,7 +8,7 @@ import { UserProvider } from './Enum/UserProvider';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) { }
+  constructor(private readonly userService: UserService) {}
 
   @Post()
   async createUser(@Body() user: UserDto): Promise<User> {

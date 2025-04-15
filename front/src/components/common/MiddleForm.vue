@@ -1,5 +1,5 @@
 <template>
-  <v-form @submit.prevent="" :class="['d-flex align-center justify-center full-height', { ['with-background']: withBackground }]">
+  <v-form :class="['d-flex align-center justify-center full-height', { ['with-background']: withBackground }]" @submit.prevent="">
     <v-container color="primary">
       <v-row justify="center">
         <v-col cols="4">
