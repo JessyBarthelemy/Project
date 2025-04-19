@@ -37,9 +37,7 @@ export class AuthenticationController {
         name: payload.name,
       };
 
-      // crée ou récupère l’utilisateur et génère un JWT
-      const accessToken = await this.authenticationService.loginGoogle(user);
-      return { accessToken };
+      return await this.authenticationService.loginGoogle(user);
     } catch {
       throw new BadRequestException(AuthenticationError.GOOGLE_AUTH);
     }

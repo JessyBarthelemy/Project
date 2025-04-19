@@ -2,7 +2,7 @@
   <main>
     <v-card
       class="mx-auto empty-card card d-flex flex-column align-center pa-6"
-      @click="handleClick"
+      @click="emit('onAdd')"
     >
       <div class="flex-grow-1 d-flex align-center">
         <v-icon size="128" class="icon-add">mdi-plus</v-icon>
@@ -17,8 +17,4 @@
 const emit = defineEmits<{
   onAdd: [];
 }>();
-
-const handleClick = () => {
-  emit('onAdd');
-};
 </script>

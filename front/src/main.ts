@@ -20,7 +20,6 @@ const vuetify = createVuetify({
   theme: {
     themes: {
       light: {
-        primary: '#6200EE',
         colors: {
           background: '#EAEAEA'
         }

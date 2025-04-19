@@ -49,6 +49,8 @@ router.beforeEach((to) => {
       query: { redirect: to.fullPath }
     };
   }
+
+  return true;
 });
 
 export default router;

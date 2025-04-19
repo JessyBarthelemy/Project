@@ -1,6 +1,9 @@
 <template>
   <main>
-    <v-card class="mx-auto card">
+    <v-card
+      :class="['mx-auto', 'card', { selected: isSelected }]"
+      @click="emit('onSelect', restaurant)"
+    >
       <div
         class="card-image"
         :style="{
@@ -27,10 +30,12 @@ import type { Restaurant } from '../../types/restaurant/restaurant';
 
 const { restaurant } = defineProps<{
   restaurant: Restaurant;
+  isSelected: boolean;
 }>();
 
 const emit = defineEmits<{
   onUpdate: [Restaurant];
   onDelete: [Restaurant];
+  onSelect: [Restaurant];
 }>();
 </script>

@@ -1,7 +1,7 @@
 <template>
   <main>
     <v-container class="restaurant-header">
-      <h1>Restaurant</h1>
+      <h1>Restaurants</h1>
     </v-container>
 
     <v-container>
@@ -12,8 +12,10 @@
         <v-col v-for="restaurant in restaurants" :key="restaurant.id" cols="2">
           <RestaurantCard
             :restaurant="restaurant"
+            :isSelected="restaurant.id === selectedRestaurant?.id"
             @onUpdate="handleOpenRestaurantDialog"
             @onDelete="handleOpenDeleteConfirm"
+            @onSelect="handleSelectRestaurant"
           />
         </v-col>
       </v-row>
@@ -42,7 +44,7 @@
 </template>
 
 <script setup lang="ts">
-import './RestaurantList.css';
+import './RestaurantList.scss';
 import RestaurantCard from '../../components/restaurant/RestaurantCard.vue';
 import { restaurantService } from '../../services/RestaurantService';
 import { ref } from 'vue';
@@ -71,7 +73,15 @@ const fetchRestaurants = async () => {
 const handleOpenRestaurantDialog = (restaurant?: Restaurant) => {
   isRestaurantDialogOpen.value = true;
   if (!restaurant) {
-    selectedRestaurant.value = null;
+    selectedRestaurant.value = {
+      name: 'Restaurant',
+      address: {
+        city: 'REIMS',
+        number: '9',
+        postalCode: '51100',
+        street: 'rue du burlat',
+      }
+    };
   } else {
     selectedRestaurant.value = restaurant;
   }
@@ -137,6 +147,11 @@ const handleCloseConfirm = () => {
 const handleOpenDeleteConfirm = (restaurant: Restaurant) => {
   selectedRestaurant.value = restaurant;
   isConfirmOpen.value = true;
+};
+
+const handleSelectRestaurant = (restaurant: Restaurant) => {
+  console.log('restaurant', restaurant)
+  selectedRestaurant.value = restaurant;
 };
 
 fetchRestaurants();

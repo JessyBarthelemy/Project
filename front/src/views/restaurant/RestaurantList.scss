@@ -22,10 +22,32 @@
   height: 30vh;
   transition: transform 0.4s;
   cursor: pointer;
-}
+  position: relative;
 
-.card:hover {
-  transform: scale(1.05);
+  &.selected::after {
+    content: "";
+    bottom: 0;
+    right: 0;
+    left: 0;
+    border: solid orange 2px;
+    position: absolute;
+  }
+
+  &:hover {
+    transform: scale(1.05);
+
+    .card-actions {
+      visibility: visible;
+    }
+
+    .card-image::after {
+      content: '';
+      background-color: rgba(0, 0, 0, 0.4);
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+  }
 }
 
 .icon-add {
@@ -47,20 +69,8 @@
   display: flex;
   flex-direction: column;
   visibility: hidden;
-}
 
-.card:hover .card-image::after {
-  content: '';
-  background-color: rgba(0, 0, 0, 0.4);
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-.card:hover .card-actions {
-  visibility: visible;
-}
-
-.card-actions i {
-  margin-top: 1.2vh;
+  i {
+    margin-top: 1.2vh;
+  }
 }
