@@ -23,62 +23,43 @@
         type="password"
       />
 
-      <v-btn
-        block
-        color="primary"
-        class="shrink mx-auto"
-        v-on:click="handleReset"
-      >
-        Valider
-      </v-btn>
+      <v-btn block color="primary" class="shrink mx-auto" @click="handleReset"> Valider </v-btn>
     </v-card-text>
   </MiddleForm>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
+<script setup lang="ts">
+import { ref } from 'vue';
 import { ResetPassword } from '../../types/user/ResetPassword';
 import { loginService } from '../../services/LoginService';
 import { ValidationError } from '../../exceptions/ValidationError';
 import { useMessage } from '../../hooks/useMessage';
 import MiddleForm from '../../components/common/MiddleForm.vue';
 
-export default defineComponent({
-  name: 'ResetPassword',
-  components: {MiddleForm},
-  setup() {
-    const resetPassword = ref<ResetPassword>({password: null, confirmPassword: null});
-    const {message, updateMessage} = useMessage();
-    
-    const handleReset = async (e) => {
-      e.preventDefault();
-      try {
-        await loginService.resetPassword(resetPassword.value);
-        
-        updateMessage({
-          type: 'success',
-          text: 'Mot de passe mis à jour.',
-        });
-      } catch(e : any) {
-        if(e instanceof ValidationError) {
-          updateMessage({
-            type: 'error',
-            text: e.message,
-          });
-        } else {
-          updateMessage({
-            type: 'error',
-            text: 'Une erreur est survenue',
-          });
-        }
-      }
-    }
+const resetPassword = ref<ResetPassword>({ password: null, confirmPassword: null });
+const { message, updateMessage } = useMessage();
 
-    return {
-      resetPassword,
-      handleReset,
-      message,
+const handleReset = async (e: Event) => {
+  e.preventDefault();
+  try {
+    await loginService.resetPassword(resetPassword.value);
+
+    updateMessage({
+      type: 'success',
+      text: 'Mot de passe mis à jour.'
+    });
+  } catch (e: any) {
+    if (e instanceof ValidationError) {
+      updateMessage({
+        type: 'error',
+        text: e.message
+      });
+    } else {
+      updateMessage({
+        type: 'error',
+        text: 'Une erreur est survenue'
+      });
     }
   }
-})
+};
 </script>

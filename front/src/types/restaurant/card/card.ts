@@ -1,3 +1,3 @@
 export interface Card {
-    title: string,
+  title: string;
 }

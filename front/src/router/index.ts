@@ -13,32 +13,32 @@ const router = createRouter({
       redirect: () => {
         const store = useStore();
         return store.token ? '/restaurants' : '/login';
-      },
+      }
     },
     {
       path: '/login',
       name: 'login',
-      component: LoginView,
+      component: LoginView
     },
     {
       path: '/signup',
       name: 'signup',
-      component: SignUp,
+      component: SignUp
     },
     {
       path: '/user/:id/password/reset',
       name: 'resetPassword',
-      component: ResetPassword,
+      component: ResetPassword
     },
     {
       path: '/restaurants',
       name: 'restaurants',
       component: RestaurantsListView,
       meta: {
-        requiresAuth: true,
-      },
-    },
-  ],
+        requiresAuth: true
+      }
+    }
+  ]
 });
 
 router.beforeEach((to) => {
@@ -46,9 +46,9 @@ router.beforeEach((to) => {
   if (to.meta.requiresAuth && store.token === null) {
     return {
       path: '/login',
-      query: { redirect: to.fullPath },
-    }
+      query: { redirect: to.fullPath }
+    };
   }
-})
+});
 
 export default router;

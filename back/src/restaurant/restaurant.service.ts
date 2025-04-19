@@ -10,6 +10,11 @@ import { BaseService } from 'src/base/BaseService';
 import { RestaurantDto } from './Dto/restaurant.dto';
 import { BaseError } from 'src/base/base.error';
 import { Address } from './entity/address.entity';
+import path from 'path';
+import { User } from 'src/user/user.entity';
+import { omit } from 'lodash';
+import * as fs from 'fs';
+import { ValidExtention } from 'src/enums/file';
 
 @Injectable()
 export class RestaurantService extends BaseService<Restaurant> {
@@ -42,9 +47,14 @@ export class RestaurantService extends BaseService<Restaurant> {
 
   async create(user, restaurantDto: RestaurantDto): Promise<Restaurant> {
     const restaurant = this.repository.create({
-      ...restaurantDto,
+      ...omit(restaurantDto, 'profilImage'),
       userId: user.id,
     });
+
+    if (restaurantDto.profilImage) {
+      restaurant.profilImage = await this.saveImage(restaurantDto.profilImage, user);
+    }
+
     return this.save(restaurant);
   }
 
@@ -66,6 +76,13 @@ export class RestaurantService extends BaseService<Restaurant> {
       throw new BadRequestException(BaseError.UPDATE_NOT_ALLOWED);
     }
 
+    if (restaurantDto.profilImage) {
+      restaurant.profilImage = await this.saveImage(
+        restaurantDto.profilImage,
+        user,
+      );
+    }
+
     return await this.repository.save({
       ...restaurant,
       ...restaurantDto,
@@ -81,5 +98,27 @@ export class RestaurantService extends BaseService<Restaurant> {
     if (result.affected === 0) {
       throw new NotFoundException();
     }
+  }
+
+  async saveImage(base64: string, user: User): Promise<string> {
+    const matches = base64.match(/^data:(.+);base64,(.+)$/);
+    if (!matches || matches.length !== 3) throw new Error('Format invalide');
+
+    const extension = matches[1].split('/')[1];
+
+    if (!Object.values(ValidExtention).includes(extension as ValidExtention)) {
+      throw new BadRequestException(BaseError.FILE_FORMAT_NOT_ALLOWED);
+    }
+
+    const buffer = Buffer.from(matches[2], 'base64');
+    const fileName = `${user.id}_${Date.now()}.${extension}`;
+    const dirPath = path.join(__dirname, '../../uploads');
+
+    if (!fs.existsSync(dirPath)) {
+      fs.mkdirSync(dirPath, { recursive: true });
+    }
+
+    fs.writeFileSync(path.join(dirPath, fileName), buffer);
+    return fileName;
   }
 }

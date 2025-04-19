@@ -1,9 +1,10 @@
 import type { AxiosResponse } from 'axios';
 import BaseService from './BaseService';
-import type { User } from '@/types/User';
-import { ValidationError } from '@/exceptions/ValidationError';
-import { USER_ERROR } from '@/errors/UserError';
-import type { ResetPassword } from '@/types/user/ResetPassword';
+import { User } from '../types/user/User';
+import { ValidationError } from '../exceptions/ValidationError';
+import { USER_ERROR } from '../errors/UserError';
+import { ResetPassword } from '../types/user/ResetPassword';
+import api from '../tools/axios';
 
 const PASSWORD_MIN_LENGTH = 6;
 
@@ -16,7 +17,10 @@ class LoginService extends BaseService {
 
   private checkPassword(password: string | null) {
     if (!password) {
-      throw new ValidationError(USER_ERROR.passwordRequired.code, USER_ERROR.passwordRequired.message);
+      throw new ValidationError(
+        USER_ERROR.passwordRequired.code,
+        USER_ERROR.passwordRequired.message
+      );
     }
 
     if (password.length < PASSWORD_MIN_LENGTH) {
@@ -30,11 +34,11 @@ class LoginService extends BaseService {
     this.checkEmail(email);
     this.checkPassword(password);
 
-    return this.axiosInstance.post('/auth/login', { email, password });
+    return api.post('/auth/login', { email, password });
   }
 
   async loginWithGoogle(token: string): Promise<AxiosResponse> {
-    return this.axiosInstance.post('/auth/login/google', { token });
+    return api.post('/auth/login/google', { token });
   }
 
   async signUp(user: User): Promise<AxiosResponse> {
@@ -42,21 +46,24 @@ class LoginService extends BaseService {
     this.checkEmail(email);
     this.checkPassword(password);
 
-    return this.axiosInstance.post('/user', { email, password });
+    return api.post('/user', { email, password });
   }
 
   async requestResetPassword(email: string | null): Promise<AxiosResponse> {
     this.checkEmail(email);
-    return this.axiosInstance.post('/user/password/request', { email });
+    return api.post('/user/password/request', { email });
   }
 
   async resetPassword({ password, confirmPassword }: ResetPassword): Promise<AxiosResponse> {
     this.checkPassword(password);
     if (password !== confirmPassword) {
-      throw new ValidationError(USER_ERROR.passwordConfirm.code, USER_ERROR.passwordConfirm.message);
+      throw new ValidationError(
+        USER_ERROR.passwordConfirm.code,
+        USER_ERROR.passwordConfirm.message
+      );
     }
 
-    return this.axiosInstance.post('/user/password/request', { password });
+    return api.post('/user/password/request', { password });
   }
 
   // #endregion

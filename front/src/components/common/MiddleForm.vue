@@ -1,5 +1,11 @@
 <template>
-  <v-form :class="['d-flex align-center justify-center full-height', { ['with-background']: withBackground }]" @submit.prevent="">
+  <v-form
+    :class="[
+      'd-flex align-center justify-center full-height',
+      { ['with-background']: withBackground }
+    ]"
+    @submit.prevent=""
+  >
     <v-container color="primary">
       <v-row justify="center">
         <v-col cols="4">
@@ -8,10 +14,9 @@
               {{ title }}
             </v-card-title>
 
-            <Message :type="message?.type" :text="message?.text" />
+            <Message :type="message?.type" :text="message?.text ?? ''" />
 
             <slot />
-
           </v-card>
         </v-col>
       </v-row>
@@ -19,22 +24,13 @@
   </v-form>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
 import Message from '../../components/common/Message.vue';
-import { Message as MessageType } from '../../types/Message';
-import { PropType } from 'vue';
+import type { Message as MessageType } from '../../types/Message';
 
-export default defineComponent({
-  name: 'MiddleForm',
-  components: { Message },
-  props: {
-    message: Object as PropType<MessageType>,
-    title: String,
-    withBackground: Boolean,
-  },
-  setup(props) {
-    return {withBackground: props.withBackground};
-  }
-})
+const { message, title, withBackground } = defineProps<{
+  message?: MessageType;
+  title?: string;
+  withBackground?: boolean;
+}>();
 </script>

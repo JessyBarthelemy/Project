@@ -12,6 +12,7 @@ import App from './App.vue';
 import GoogleLogin from 'vue3-google-login';
 import { createPinia } from 'pinia';
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
+import Toast, { POSITION } from 'vue-toastification';
 
 const vuetify = createVuetify({
   components,
@@ -21,21 +22,25 @@ const vuetify = createVuetify({
       light: {
         primary: '#6200EE',
         colors: {
-          background: '#EAEAEA',
-        },
-      },
-    },
-  },
+          background: '#EAEAEA'
+        }
+      }
+    }
+  }
 });
 
 const app = createApp(App);
-
-app.use(router);
-app.use(vuetify);
 
 const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate);
 app.use(pinia);
 
-app.use(GoogleLogin, { clientId: import.meta.env.VITE_GOOGLE_CLIENT_ID, });
+app.use(router);
+app.use(vuetify);
+
+app.use(Toast, {
+  position: POSITION.TOP_RIGHT
+});
+
+app.use(GoogleLogin, { clientId: import.meta.env.VITE_GOOGLE_CLIENT_ID });
 app.mount('#app');

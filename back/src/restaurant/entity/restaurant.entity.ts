@@ -19,6 +19,9 @@ export class Restaurant {
   @Column({ type: 'int' })
   userId: number;
 
+  @Column({ type: 'varchar' })
+  profilImage: string;
+
   @ManyToOne(() => User, (user) => user.restaurants)
   user: User;
 

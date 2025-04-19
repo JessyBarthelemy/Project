@@ -17,10 +17,13 @@
     "@babel/eslint-parser": "^7.27.0",
     "axios": "^1.8.4",
     "eslint-import-resolver-typescript": "^4.3.2",
+    "lodash": "^4.17.21",
+    "@types/lodash": "^4.17.16",
     "pinia": "^3.0.2",
     "pinia-plugin-persistedstate": "^4.2.0",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0",
+    "vue-toastification": "^2.0.0-rc.5",
     "vue3-google-login": "^2.0.33",
     "vuetify": "^3.8.1"
   },

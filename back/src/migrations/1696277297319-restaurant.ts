@@ -28,6 +28,12 @@ export class Restaurant1696277297319 implements MigrationInterface {
             type: 'int',
             isNullable: false,
           },
+          {
+            name: 'profilImage',
+            type: 'varchar',
+            length: '200',
+            isNullable: true,
+          },
         ],
       }),
       true,

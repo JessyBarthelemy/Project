@@ -2,19 +2,13 @@
   <RouterView />
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
 import { computed } from 'vue';
 import './styles/global.scss';
 import { useStore } from './store/store';
+import 'vue-toastification/dist/index.css';
 
-export default defineComponent({
-  name: 'App',
-  setup() {
-    const store = useStore();
-    return {
-      isLoggedIn: computed(() => store.token !== null),
-    }
-  }
-})
+const store = useStore();
+// eslint-disable-next-line no-unused-vars
+const isLoggedIn = computed(() => store.token !== null);
 </script>
