@@ -12,6 +12,7 @@
 
 .cartes-header {
   text-align: center;
+  width: 40vw;
 }
 
 .empty-card {
@@ -57,7 +58,7 @@
 
 .card-image {
   position: relative;
-  height: 19vh;
+  height: 50%;
   background-size: cover;
   background-position: center;
 }

@@ -34,6 +34,7 @@ export class RestaurantService extends BaseService<Restaurant> {
       },
       relations: {
         address: true,
+        cartes: true,
       },
     });
   }
@@ -52,7 +53,10 @@ export class RestaurantService extends BaseService<Restaurant> {
     });
 
     if (restaurantDto.profilImage) {
-      restaurant.profilImage = await this.saveImage(restaurantDto.profilImage, user);
+      restaurant.profilImage = await this.saveImage(
+        restaurantDto.profilImage,
+        user,
+      );
     }
 
     return this.save(restaurant);

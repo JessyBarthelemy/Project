@@ -6,10 +6,18 @@
 
     <v-container>
       <v-row justify="center">
-        <v-col cols="2">
+        <v-col cols="12" xl="2" lg="3" md="4" sm="6">
           <EmptyCard @onAdd="handleOpenRestaurantDialog" />
         </v-col>
-        <v-col v-for="restaurant in restaurants" :key="restaurant.id" cols="2">
+        <v-col
+          v-for="restaurant in restaurants"
+          :key="restaurant.id"
+          cols="12"
+          xl="2"
+          lg="3"
+          md="4"
+          sm="6"
+        >
           <RestaurantCard
             :restaurant="restaurant"
             :isSelected="restaurant.id === selectedRestaurant?.id"
@@ -37,8 +45,10 @@
       @onConfirm="handleDeleteRestaurant"
     />
 
-    <v-container class="cartes-header">
+    <v-container v-if="!isNil(selectedRestaurant)" class="cartes-header">
       <h1>Cartes</h1>
+
+      <CarteList :cartes="selectedRestaurant?.cartes ?? []" />
     </v-container>
   </main>
 </template>
@@ -55,6 +65,7 @@ import EmptyCard from '../../components/restaurant/EmptyCard.vue';
 import RestaurantDialog from '../../components/restaurant/RestaurantDialog/RestaurantDialog.vue';
 import { isNil } from 'lodash';
 import ConfirmDialog from '@/components/common/ConfirmDialog.vue';
+import CarteList from '@/components/cartes/CarteList.vue';
 
 const restaurants = ref<Restaurant[]>([]);
 const selectedRestaurant = ref<Restaurant | null>(null);
@@ -73,21 +84,14 @@ const fetchRestaurants = async () => {
 const handleOpenRestaurantDialog = (restaurant?: Restaurant) => {
   isRestaurantDialogOpen.value = true;
   if (!restaurant) {
-    selectedRestaurant.value = {
-      name: 'Restaurant',
-      address: {
-        city: 'REIMS',
-        number: '9',
-        postalCode: '51100',
-        street: 'rue du burlat',
-      }
-    };
+    selectedRestaurant.value = null;
   } else {
     selectedRestaurant.value = restaurant;
   }
 };
 
 const handleRestaurantModalClose = () => {
+  selectedRestaurant.value = null;
   isRestaurantDialogOpen.value = false;
 };
 
@@ -150,7 +154,6 @@ const handleOpenDeleteConfirm = (restaurant: Restaurant) => {
 };
 
 const handleSelectRestaurant = (restaurant: Restaurant) => {
-  console.log('restaurant', restaurant)
   selectedRestaurant.value = restaurant;
 };
 

@@ -14,4 +14,4 @@ import { MediaModule } from 'src/media/media.module';
     MediaModule,
   ],
 })
-export class AppModule { }
+export class AppModule {}

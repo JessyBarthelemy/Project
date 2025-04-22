@@ -21,7 +21,7 @@ config();
     PassportModule,
     JwtModule.register({
       secret: process.env.SECRET,
-      signOptions: { expiresIn: '1h' },
+      signOptions: { expiresIn: '24h' },
     }),
     TypeOrmModule.forFeature([User]),
   ],

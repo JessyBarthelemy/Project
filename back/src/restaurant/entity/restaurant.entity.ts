@@ -5,8 +5,10 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   OneToOne,
+  OneToMany,
 } from 'typeorm';
 import { Address } from './address.entity';
+import { Carte } from './carte.entity';
 
 @Entity()
 export class Restaurant {
@@ -27,4 +29,7 @@ export class Restaurant {
 
   @OneToOne(() => Address, (address) => address.restaurant, { cascade: true })
   address: Address;
+
+  @OneToMany(() => Carte, (carte: Carte) => carte.restaurant)
+  cartes: Carte[];
 }
